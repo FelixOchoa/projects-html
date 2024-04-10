@@ -1,47 +1,26 @@
 import { useEffect, useState } from "react";
+import { ListUsers } from "./components/Usuarios";
+import { Login } from "./components/Login";
 
 function App() {
-  const [usuariosInformacion, setUsuariosInformacion] = useState([]);
-
-  const handleClickCargarUsuarios = async () => {
-    try {
-      const response = await fetch("https://api.escuelajs.co/api/v1/users");
-      const data = await response.json();
-      setUsuariosInformacion(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const [renderComponent, setRenderComponent] = useState(0);
 
   useEffect(() => {
-    handleClickCargarUsuarios();
+    const user = window.localStorage.getItem("user");
+
+    if (user !== null) {
+      setRenderComponent(1);
+    }
   }, []);
 
-  return (
-    <main className="contenedor">
-      <h1>Listado de usuarios</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Foto</th>
-          </tr>
-        </thead>
-        <tbody>
-          {usuariosInformacion.map((usuario) => (
-            <tr key={usuario.id}>
-              <td>{usuario.name}</td>
-              <td>{usuario.email}</td>
-              <td>
-                <img src={usuario.avatar} alt={usuario.name} />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </main>
-  );
+  
+    return (
+      <main className="contenedor">
+        {renderComponent === 0 ? <Login /> : <ListUsers />}
+        {/* <ListUsers />
+        <Login /> */}
+      </main>
+    );
 }
 
 export default App;
