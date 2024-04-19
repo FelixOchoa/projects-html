@@ -1,52 +1,72 @@
 import { useEffect, useState } from "react";
 import { Button } from "antd";
+import { Restaurantes } from "./Restaurantes";
+import { UserList } from "./ListaUsuarios";
 
 export const ListUsers = () => {
-    const [usuariosInformacion, setUsuariosInformacion] = useState([]);
+  const [usuariosInformacion, setUsuariosInformacion] = useState([]);
+  const [informacionRestaurantes, setInformacionRestaurantes] = useState([]);
+  const [renderComponentUsers, setRenderComponentUsers] = useState(1);
 
-    const handleClickCargarUsuarios = async () => {
-        try {
-            const response = await fetch("http://127.0.0.1:8000/usuarios");
-            const data = await response.json();
-            setUsuariosInformacion(data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    const handleLogout = () => {
-        window.localStorage.removeItem("user");
-        window.location.reload();
+  const handleClickCargarUsuarios = async () => {
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_URL_BACKEND + "/usuarios"
+      );
+      const data = await response.json();
+      setUsuariosInformacion(data);
+    } catch (error) {
+      console.error(error);
     }
+  };
 
-    useEffect(() => {
-        handleClickCargarUsuarios();
-    }, []);
+  const getRestaurantes = async () => {
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_URL_BACKEND + "/restaurantes"
+      );
+      const data = await response.json();
+      setInformacionRestaurantes(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-    return (
-        <>
-            <Button type="primary" onClick={handleLogout} >Cerrar Sesión</Button>
-            <h1>Listado de usuarios</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Correo</th>
-                        <th>Foto</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {usuariosInformacion.map((usuario) => (
-                        <tr key={usuario.id}>
-                            <td>{usuario.nombre}</td>
-                            <td>{usuario.correo}</td>
-                            <td>
-                                <img src={usuario.foto} alt={usuario.nombre} />
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </>
-    );
-}
+  const handleLogout = () => {
+    window.localStorage.removeItem("user");
+    window.location.reload();
+  };
+
+  const handleRenderComponent = (value) => {
+    setRenderComponentUsers(value);
+  };
+
+  useEffect(() => {
+    handleClickCargarUsuarios();
+    getRestaurantes();
+  }, []);
+
+  return (
+    <>
+      <div className="row-buttons">
+        {/* <Button type="primary" onClick={handleLogout}>
+          Cerrar Sesión
+        </Button>
+        <Button type="primary" onClick={() => handleRenderComponent(0)}>
+          Usuarios
+        </Button>
+        <Button type="primary" onClick={() => handleRenderComponent(1)}>
+          Restaurantes
+        </Button> */}
+      </div>
+
+      {renderComponentUsers === 0 && (
+        <UserList usuariosInformacion={usuariosInformacion} />
+      )}
+
+      {renderComponentUsers === 1 && (
+        <Restaurantes informacionRestaurantes={informacionRestaurantes} />
+      )}
+    </>
+  );
+};

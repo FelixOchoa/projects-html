@@ -13,14 +13,11 @@ function App() {
     }
   }, []);
 
-  
-    return (
-      <main className="contenedor">
-        {renderComponent === 0 ? <Login /> : <ListUsers />}
-        {/* <ListUsers />
-        <Login /> */}
-      </main>
-    );
+  return (
+    <main className="contenedor">
+      {renderComponent === 0 ? <Login /> : <ListUsers />}
+    </main>
+  );
 }
 
 export default App;

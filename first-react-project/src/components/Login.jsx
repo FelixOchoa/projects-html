@@ -1,43 +1,20 @@
 import { Button, Form, Input } from "antd";
-import { useState } from "react";
+import { LoginService } from "../services/Login";
+
+const LOGIN_URL = "http://127.0.0.1:8000";
 
 export const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleForm = async (informationForm) => {
-    if (informationForm.username !== "" && informationForm.password !== "") {
-      setUsername(informationForm.username);
-      setPassword(informationForm.password);
-      handleLogin();
+  const handleForm = async ({ username, password }) => {
+    if (username.trim() !== "" && password.trim() !== "") {
+      await handleLogin(username, password);
     }
   };
 
-  const handleLogin = async () => {
+  const handleLogin = async (username, password) => {
     try {
-      //   const response = await fetch("http://127.0.0.1:8000/login", {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify({
-      //       username: username,
-      //       password: password,
-      //     }),
-      //   });
-
-      //   const data = await response.json();
-
-      //   if( data.id !== undefined || data.id !== null ){
-      //     window.localStorage.setItem("user", JSON.stringify(data));
-      //     window.location.reload();
-      //   }
-      console.log(import.meta.env.VITE_PASSWORD, import.meta.env.USERNAME)
-      if (username === import.meta.env.VITE_USERNAME && password === import.meta.env.VITE_PASSWORD) {
-        window.localStorage.setItem("user", JSON.stringify({
-            username: import.meta.env.VITE_USERNAME,
-            password: import.meta.env.VITE_PASSWORD
-        }));
+      const data = await LoginService(username, password, LOGIN_URL);
+      if (data.id !== undefined || data.id !== null) {
+        window.localStorage.setItem("user", JSON.stringify(data));
         window.location.reload();
       }
     } catch (error) {
