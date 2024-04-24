@@ -16,7 +16,7 @@ body {
     background-color: #131818;
     max-width: 300px;
     width: 100%;
-    
+
     @media (max-width: 800px) {
       max-width: 200px;
     }
@@ -151,8 +151,58 @@ table {
   width: 80%;
 }
 
+.create-restaurant-container {
+  display: flex;
+  width: 100%;
+
+  & form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .input-container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 10px;
+
+      & input {
+        padding: 15px 0px;
+        border-radius: 10px;
+        background-color: #131818;
+        border: none;
+        width: 100%;
+        text-indent: 10px;
+      }
+      & select {
+        padding: 15px 0px;
+        border-radius: 10px;
+        background-color: #131818;
+        border: none;
+        width: 100%;
+        text-indent: 10px;
+      }
+    }
+
+    & button {
+      padding: 15px 0px;
+      box-shadow: 0px 0px 1px 0px #ffffff69;
+      width: 300px;
+      align-self: center;
+      border-radius: 10px;
+      background-color: #131818;
+      border: none;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  }
+}
+
 .restaurantes-container {
   display: grid;
+  width: 100%;
   grid-template-columns: repeat(4, 1fr);
   gap: 15px;
 
@@ -181,7 +231,15 @@ table {
   gap: 10px;
   cursor: pointer;
   transition: all 0.6s;
-
+  & .popOver {
+    position: absolute;
+    right: 10px;
+    background-color: #131818;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px 0px #ffffff69;
+  }
   & span {
     font-size: 16px;
     position: absolute;
@@ -205,6 +263,8 @@ table {
     background-color: #232627;
     width: 30px;
     height: 30px;
+    border: none;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;

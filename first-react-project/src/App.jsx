@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { ListUsers } from "./components/Usuarios";
 import { Login } from "./components/Login";
+import { Switch, Router } from "wouter";
+import { Toaster } from "react-hot-toast";
+import CreateRestaurant from "./pages/restaurantes/create";
 
 function App() {
   const [renderComponent, setRenderComponent] = useState(0);
@@ -15,7 +18,18 @@ function App() {
 
   return (
     <main className="contenedor">
-      {renderComponent === 0 ? <Login /> : <ListUsers />}
+      <Toaster />
+      <Switch>
+        <Router path="/login">
+          <Login />
+        </Router>
+        <Router path="/usuarios">
+          <ListUsers />
+        </Router>
+        <Router path="/restaurantes/create">
+          <CreateRestaurant />
+        </Router>
+      </Switch>
     </main>
   );
 }
